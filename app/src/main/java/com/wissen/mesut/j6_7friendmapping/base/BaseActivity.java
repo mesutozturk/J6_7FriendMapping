@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.wissen.mesut.j6_7friendmapping.R;
 
 /**
  * Created by Mesut on 12.09.2017.
@@ -36,5 +37,31 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         return valid;
+    }
+
+    public void showProgressDialog(String title, String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setTitle(title);
+            mProgressDialog.setMessage(message);
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    public void showProgressDialog(String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setTitle(R.string.veritabanibaglaniyor);
+            mProgressDialog.setMessage(message);
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }

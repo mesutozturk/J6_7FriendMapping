@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">J6_7FriendMapping</string>
+    <string name="app_name">Friend Mapping</string>
+    <string name="veritabanibaglaniyor">Veritabanına Bağlanıyor</string>
 </resources>
