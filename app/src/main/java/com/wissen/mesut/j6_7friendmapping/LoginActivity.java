@@ -55,6 +55,7 @@ public class LoginActivity extends BaseActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
+
     }
 
     @Override

@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">Friend Mapping</string>
     <string name="veritabanibaglaniyor">Veritabanına Bağlanıyor</string>
+    <string name="email">E Mail</string>
+    <string name="password">Şifre</string>
+    <string name="kayitol">Kayıt Ol</string>
+    <string name="girisyap">Giriş Yap</string>
+    <string name="uyeolmakistiyorum">Üye Olmak İstiyorum</string>
+
+    <string name="navigation_drawer_open">Menüyü Aç</string>
+    <string name="navigation_drawer_close">Menüyü Kapat</string>
+
+    <string name="action_settings">Ayarlar</string>
+    <string name="profil">Profilim</string>
+    <string name="ad">Ad</string>
+    <string name="soyad">Soyad</string>
+    <string name="guncelle">Güncelle</string>
+    <string name="sifremiunuttum">Şiremi Unuttum</string>
+    <string name="cikisyap">Çıkış Yap</string>
+    <string name="takvim">Takvim</string>
+    <string name="ekle">Ekle</string>
 </resources>
