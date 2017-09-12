@@ -20,7 +20,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.wissen.mesut.j6_7friendmapping.base.BaseActivity;
 
 public class LoginActivity extends BaseActivity {
-    private static final int RC_SIGN_IN = 100;
+    private static final int RC_SIGN_IN = 9001;
     private SignInButton btnGoogleGirisYap;
     private GoogleApiClient mGoogleApiClient;
 
@@ -32,7 +32,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initComp() {
-        btnGoogleGirisYap = (SignInButton) findViewById(R.id.login_btnGoogleSign);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -40,6 +39,7 @@ public class LoginActivity extends BaseActivity {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        btnGoogleGirisYap = (SignInButton) findViewById(R.id.login_btnGoogleSign);
         btnGoogleGirisYap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +56,7 @@ public class LoginActivity extends BaseActivity {
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
+                Toast.makeText(this, "izin var", Toast.LENGTH_SHORT).show();
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
