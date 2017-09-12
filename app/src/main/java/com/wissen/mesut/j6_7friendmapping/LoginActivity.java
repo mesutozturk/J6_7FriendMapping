@@ -16,8 +16,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.wissen.mesut.j6_7friendmapping.base.BaseActivity;
+import com.wissen.mesut.j6_7friendmapping.model.Uye;
 
 public class LoginActivity extends BaseActivity {
     private static final int RC_SIGN_IN = 9001;
@@ -70,12 +77,13 @@ public class LoginActivity extends BaseActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //kullaniciKontrol();
+                            kullaniciKontrol();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -87,5 +95,36 @@ public class LoginActivity extends BaseActivity {
                         // [END_EXCLUDE]
                     }
                 });
+    }
+
+    private void kullaniciKontrol() {
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            database = FirebaseDatabase.getInstance();
+            myRef = database.getReference().child("uyeler");
+            final Query query = myRef.child(user.getUid());
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.exists()) {
+                        Uye yeniUye = new Uye();
+                        yeniUye.setEmail(user.getEmail());
+                        yeniUye.setId(user.getUid());
+                        yeniUye.setAd(user.getDisplayName());
+                        myRef.child(user.getUid()).setValue(yeniUye);
+                    }
+                    query.removeEventListener(this);
+                    Toast.makeText(LoginActivity.this, "Hoşgeldiniz", Toast.LENGTH_SHORT).show();
+                    hideProgressDialog();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }
